@@ -71,7 +71,7 @@ The hardware manual (<https://www.cambridgeaudio.com/gbr/en/node/19421/printable
 | Setters return a reply | **Not documented**; inferred only (see above). |
 | "Read official command tables for … error meanings" | Only four generic error codes exist. Errors do not say which command they refer to. |
 | Standby behaviour "reopen the PDF" | The PDF says nothing about standby. Neither does the hardware manual. This remains a hardware test. |
-| Cable compatibility | Neither Cambridge document gives gender or pinout, and the PUSR product page doesn't either. Measure before connecting (see hardware-setup.md). |
+| Cable compatibility | Neither Cambridge document gives gender or pinout. Later research: the W610 manual confirms **DB9 male** (no pin table); a review says the CXA81 is **DB9 female**; Cambridge's convention (CXR FAQ) is straight-through. A straight-through M-F cable is therefore likely right, but unverified. See hardware-setup.md for the multimeter check. |
 | HA docs at developers.home-assistant.io | These now redirect to contributors.home-assistant.io. `MediaPlayerState.STANDBY` is deprecated, so standby maps to `off`. |
 | HACS branding | Since HA 2026.3, custom integrations ship `custom_components/<domain>/brand/icon.png`. We need an original icon; Cambridge's logo can't be used. |
 | "Avoid competing TCP clients" | Real risk. The W610 allows up to 24 TCP clients in server mode, and another client's commands would confuse reply correlation. |
