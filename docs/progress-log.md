@@ -1,5 +1,8 @@
 # Progress log
 
+## 2026-11-25: minimum HA raised to 2026.11.0
+- At the owner's request, `hacs.json` now claims only the release line they run. The test harness is still 2026.10.4 (no 2026.11 release yet); this gap is recorded in PLAN.md and the README.
+
 ## 2026-11-25: PR workflow
 - README now shows milestone status and compatibility. Added a PR template with the evidence and safety checklist. From now on, changes go through PRs to `main` (earlier commits were pushed directly while the repo was set up).
 
