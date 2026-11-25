@@ -24,14 +24,18 @@ jobs:
       - name: Test
         run: uv run pytest -q
 
-  # Enabled for manual runs only until milestone 3 (config flow) and the
-  # release prerequisites (public repo, brand/icon.png, codeowners) exist.
-  validate:
-    if: github.event_name == 'workflow_dispatch'
+  # HACS validation stays manual-only until milestone 5 adds brand/icon.png.
+  hassfest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - uses: home-assistant/actions/hassfest@master
+
+  hacs:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
       - uses: hacs/action@main
         with:
           category: integration

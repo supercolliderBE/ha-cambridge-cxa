@@ -48,7 +48,7 @@ async def test_user_flow_success_is_read_only(
     flow_id = await _start(hass)
     result = await hass.config_entries.flow.async_configure(
         flow_id,
-        {"model": "CXA81", "host": f" {HOST} ", "port": amp.port},  # type: ignore[attr-defined]
+        {"model": "cxa81", "host": f" {HOST} ", "port": amp.port},  # type: ignore[attr-defined]
     )
     assert result["type"] is FlowResultType.CREATE_ENTRY
     assert result["title"] == "Cambridge Audio CXA81"
@@ -75,7 +75,7 @@ async def test_user_flow_errors_then_recover(
     hass: HomeAssistant, amp: MockAmplifier, fast_client: None, error: Exception, key: str
 ) -> None:
     flow_id = await _start(hass)
-    user_input = {"model": "CXA81", "host": HOST, "port": amp.port}  # type: ignore[attr-defined]
+    user_input = {"model": "cxa81", "host": HOST, "port": amp.port}  # type: ignore[attr-defined]
     with patch(FLOW_INFO, side_effect=error):
         result = await hass.config_entries.flow.async_configure(flow_id, user_input)
     assert result["type"] is FlowResultType.FORM
@@ -90,7 +90,7 @@ async def test_user_flow_errors_then_recover(
 async def test_user_flow_unreachable_bridge(hass: HomeAssistant) -> None:
     flow_id = await _start(hass)
     result = await hass.config_entries.flow.async_configure(
-        flow_id, {"model": "CXA81", "host": HOST, "port": _free_port()}
+        flow_id, {"model": "cxa81", "host": HOST, "port": _free_port()}
     )
     assert result["errors"] == {"base": "cannot_connect"}
 
@@ -102,7 +102,7 @@ async def test_duplicate_host_port_aborts(
     flow_id = await _start(hass)
     result = await hass.config_entries.flow.async_configure(
         flow_id,
-        {"model": "CXA81", "host": HOST, "port": amp.port},  # type: ignore[attr-defined]
+        {"model": "cxa81", "host": HOST, "port": amp.port},  # type: ignore[attr-defined]
     )
     assert result["type"] is FlowResultType.ABORT
     assert result["reason"] == "already_configured"

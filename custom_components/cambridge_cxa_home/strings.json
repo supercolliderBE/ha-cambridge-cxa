@@ -42,8 +42,8 @@
   "selector": {
     "model": {
       "options": {
-        "CXA61": "CXA61 (untested)",
-        "CXA81": "CXA81"
+        "cxa61": "CXA61 (untested)",
+        "cxa81": "CXA81"
       }
     }
   },

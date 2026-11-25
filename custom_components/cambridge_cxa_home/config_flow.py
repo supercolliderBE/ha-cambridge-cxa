@@ -40,7 +40,8 @@ _PORT_SELECTOR = NumberSelector(
 )
 _MODEL_SELECTOR = SelectSelector(
     SelectSelectorConfig(
-        options=[m.value for m in Model],
+        # Translation keys must be lowercase; the stored value stays e.g. "CXA81".
+        options=[m.value.lower() for m in Model],
         mode=SelectSelectorMode.DROPDOWN,
         translation_key="model",
     )
@@ -88,13 +89,13 @@ class CXAConfigFlow(ConfigFlow, domain=DOMAIN):
                 # The protocol exposes no serial number, and IP or firmware are
                 # not identities, so the device gets a generated stable ID.
                 await self.async_set_unique_id(uuid.uuid4().hex)
-                model = user_input[CONF_MODEL]
+                model = Model(user_input[CONF_MODEL].upper()).value
                 return self.async_create_entry(
                     title=f"{MANUFACTURER} {model}",
                     data={CONF_HOST: host, CONF_PORT: port, CONF_MODEL: model},
                 )
         schema = vol.Schema(
-            {vol.Required(CONF_MODEL, default=Model.CXA81.value): _MODEL_SELECTOR}
+            {vol.Required(CONF_MODEL, default=Model.CXA81.value.lower()): _MODEL_SELECTOR}
         ).extend(_connection_schema(user_input or {}).schema)
         return self.async_show_form(step_id="user", data_schema=schema, errors=errors)
 
