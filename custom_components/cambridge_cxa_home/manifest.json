@@ -1,6 +1,9 @@
 {
   "domain": "cambridge_cxa_home",
   "name": "Cambridge Audio CXA (Local Serial Bridge)",
+  "categories": [
+    "media_entertainment.speakers_audio"
+  ],
   "codeowners": [
     "@supercolliderBE"
   ],
