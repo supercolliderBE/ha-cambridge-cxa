@@ -15,8 +15,8 @@ The status of each milestone is kept current here. For details of what changed a
 | 1 | Scaffold, protocol encoder/parser, typed events, unit tests | **Done** (2026-11-25) |
 | 2 | Async TCP client, reconnect/resync, stateful mock, read-only probe CLI, tests | **Done** (2026-11-25) |
 | 3 | HA MVP: config flow (+ reconfigure), setup/unload, `media_player`, diagnostics, HA tests | **Done** (2026-11-25, simulator only) |
-| 4 | Hardware validation on CXA81 + USR-W610 (see checklist) | Blocked on hardware |
-| 5 | Release: brand icon, HACS/hassfest green, docs, beta tag, then stable | After 4 |
+| 4 | Hardware validation on CXA81 + USR-W610 (see checklist) | **Next.** Blocked on hardware. Before it: an end-to-end run in a real HA instance against the simulator |
+| 5 | Release: brand icon, HACS/hassfest green, docs, beta tag, then stable | After 4. hassfest already passes; HACS fails only on the brand icon |
 
 ### Milestone 3 design (as built)
 - `config_flow.py`: user step (model, host, port) → `fetch_device_info` (read-only). Errors: `cannot_connect` (TCP), `no_response` (TCP OK but amplifier silent), `rejected` (e.g. group format), `unknown`. Unique ID: a generated UUID stored in the entry, because the protocol exposes no serial number and firmware/IP aren't identities. Duplicate prevention by host+port match (checked before touching the bridge). A reconfigure step changes host/port and keeps the identity.

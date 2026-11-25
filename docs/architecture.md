@@ -3,7 +3,7 @@
 ```
 Home Assistant (container)
   custom_components/cambridge_cxa_home/
-    media_player / config_flow / diagnostics      (milestone 3; HA-specific)
+    __init__ / config_flow / media_player / diagnostics          (HA-specific)
           │ listener callbacks, async commands
     client.py   CXAClient      state, supervise, reconnect, poll   (no HA imports)
                 CXAConnection  one socket, one reader task, request lock
