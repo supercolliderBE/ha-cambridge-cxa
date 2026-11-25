@@ -1,5 +1,9 @@
 # Progress log
 
+## 2026-11-25: cable research and branch cleanup
+- Pinout research recorded in hardware-setup.md: W610 is DB9 male (PUSR manual), CXA81 DB9 female (review), Cambridge recommends straight-through for its CXR receivers. Added a multimeter method to find each TX pin, and the options if the wiring doesn't match.
+- Deleted three merged branches; turned on automatic deletion of PR branches after merge.
+
 ## 2026-11-25: main protected
 - Added a repository ruleset "Protect main": pull request required (0 approvals, so the owner can merge their own PRs), required checks `test` and `hassfest`, force-push and deletion blocked, no bypass actors. Verified: a direct push to `main` is rejected with GH013.
 
