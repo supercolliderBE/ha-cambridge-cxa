@@ -8,5 +8,5 @@
 - Setup, validation and the probe stay read-only. Never queue, retry or replay state-changing commands.
 - Before committing: `uv run ruff check . && uv run ruff format --check . && uv run pytest -q`. Add a dated entry to `docs/progress-log.md`.
 - Any PR that changes behaviour, tests or milestone status also updates the living docs in the same PR: README (status, layout), `docs/PLAN.md`, `docs/hardware-validation.md` (test counts, validator results) and `docs/architecture.md`. Grep for stale counts and milestone labels before opening it.
-- Work on a branch and open a PR to `main`; never push to `main` directly. Wait for CI to pass, and merge only when the owner approves.
+- Work on a branch and open a PR to `main`. A GitHub ruleset ("Protect main") enforces this: PR required, `test` and `hassfest` must pass, no force-push or deletion, no bypass. Merge only when the owner approves. Disabling the ruleset (e.g. for a history rewrite) needs the owner's explicit OK.
 - Do not push, publish, or install into the production Home Assistant without explicit approval.

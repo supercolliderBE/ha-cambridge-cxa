@@ -1,5 +1,8 @@
 # Progress log
 
+## 2026-11-25: main protected
+- Added a repository ruleset "Protect main": pull request required (0 approvals, so the owner can merge their own PRs), required checks `test` and `hassfest`, force-push and deletion blocked, no bypass actors. Verified: a direct push to `main` is rejected with GH013.
+
 ## 2026-11-25: documentation catch-up
 - After PR #3 merged: updated hardware-validation.md (165 tests broken down by suite, validator results, new checklist items H14–H16 for the real HA install), the README layout and feature text, architecture.md, the plan status, and an "Add to Home Assistant" step in hardware-setup.md.
 
