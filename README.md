@@ -4,6 +4,23 @@
 
 This custom integration controls a Cambridge Audio **CXA81** (CXA61 support is planned) over its RS232 port. The connection goes through a transparent Wi-Fi/Ethernet-to-serial bridge such as the PUSR USR-W610. Everything is local: no cloud, no phone app and no extra container.
 
+## Project status
+| Milestone | Status |
+|---|---|
+| 1. Protocol encoder/parser | Done (tested against the simulator) |
+| 2. Async client, simulator, hardware probe | Done (tested against the simulator) |
+| 3. Home Assistant setup screen and entity | In progress next |
+| 4. Validation on a real CXA81 + USR-W610 | Waiting for hardware ([checklist](docs/hardware-validation.md)) |
+| 5. HACS release (beta, then stable) | After real-hardware validation |
+
+## Compatibility
+| Component | Status |
+|---|---|
+| Home Assistant | Minimum **2026.10.0**. Automated tests run against 2026.10.4. 2026.11.2 is the maintainer's target install, not yet tested there. |
+| Install types | Any that allow custom integrations (Container, OS, Supervised, Core). No extra add-on or container needed. |
+| Amplifiers | **CXA81: planned, not yet verified on hardware.** CXA61: protocol supported in code, untested. Mk II: unknown. |
+| Bridges | PUSR USR-W610 (planned test device). Any transparent TCP-server-to-RS232 bridge at 9600 8N1 should work in principle; none verified yet. |
+
 ## Planned features (MVP)
 - Power (on/standby), mute, and source selection, including **A1 Balanced** on the CXA81.
 - Live updates when the remote or front panel changes state. The amplifier pushes these.
