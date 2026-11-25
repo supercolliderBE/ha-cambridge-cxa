@@ -14,14 +14,14 @@ The status of each milestone is kept current here. For details of what changed a
 |---|---|---|
 | 1 | Scaffold, protocol encoder/parser, typed events, unit tests | **Done** (2026-11-25) |
 | 2 | Async TCP client, reconnect/resync, stateful mock, read-only probe CLI, tests | **Done** (2026-11-25) |
-| 3 | HA MVP: config flow (+ reconfigure), setup/unload, `media_player`, diagnostics, HA tests | Next |
+| 3 | HA MVP: config flow (+ reconfigure), setup/unload, `media_player`, diagnostics, HA tests | **Done** (2026-11-25, simulator only) |
 | 4 | Hardware validation on CXA81 + USR-W610 (see checklist) | Blocked on hardware |
 | 5 | Release: brand icon, HACS/hassfest green, docs, beta tag, then stable | After 4 |
 
-### Milestone 3 design (planned)
-- `config_flow.py`: user step (model, host, port) → `fetch_device_info` (read-only). Errors: `cannot_connect` (TCP), `no_response` (TCP OK but amplifier silent), `rejected` (e.g. group format). Unique ID: a generated UUID stored in the entry, because the protocol exposes no serial number and firmware/IP aren't identities. Duplicate prevention by host+port match. A reconfigure step changes host/port and keeps the identity.
+### Milestone 3 design (as built)
+- `config_flow.py`: user step (model, host, port) → `fetch_device_info` (read-only). Errors: `cannot_connect` (TCP), `no_response` (TCP OK but amplifier silent), `rejected` (e.g. group format), `unknown`. Unique ID: a generated UUID stored in the entry, because the protocol exposes no serial number and firmware/IP aren't identities. Duplicate prevention by host+port match (checked before touching the bridge). A reconfigure step changes host/port and keeps the identity.
 - `__init__.py`: `CXAClient` in `entry.runtime_data`. `ConfigEntryNotReady` if the first connect fails. The client is stopped on unload.
-- `media_player.py`: device class `receiver`. Features `TURN_ON | TURN_OFF | VOLUME_MUTE | SELECT_SOURCE` only. State `on`/`off` (standby → `off`, because `STANDBY` is deprecated); `available` follows the connection. Push updates via the client listener, with `should_poll = False`. Command errors surface as `HomeAssistantError`.
+- `media_player.py`: device class `receiver`. Features `TURN_ON | TURN_OFF | VOLUME_MUTE | SELECT_SOURCE` only. State `on`/`off` (standby → `off`, because `STANDBY` is deprecated); `available` follows the connection. Push updates via the client listener, with `should_poll = False`. Command errors surface as translated `HomeAssistantError`s. HA itself skips unavailable entities in service calls, so commands during an outage are silent no-ops; the client also refuses them.
 - `diagnostics.py`: protocol/firmware version, reconnect count, last error, malformed/unknown frame counters. Host and port redacted.
 - A settable group format (options flow) only if hardware shows it's needed.
 

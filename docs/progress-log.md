@@ -1,5 +1,12 @@
 # Progress log
 
+## 2026-11-25: milestone 3 (HA MVP)
+- Repo made public after rewriting two web-merge commits that carried the owner's real email (owner enabled GitHub email privacy).
+- Added `__init__.py` (setup/unload, `ConfigEntryNotReady`, stop on HA shutdown), `config_flow.py` (user + reconfigure, read-only validation, duplicate prevention, generated unique ID), `media_player.py`, `diagnostics.py`, `strings.json` and `translations/en.json`. `manifest.json` now has `config_flow: true`.
+- 30 new HA-level tests (165 total), stable across 6 runs. They run against the simulator only.
+- Found while testing: in HA 2026.10, `device_registry.async_get_device` is deprecated (identifiers are no longer unique across config entries); tests use `async_get_device_by_identifier`. HA skips unavailable entities in service calls, so commands during an outage never reach the integration.
+- Not done yet: an end-to-end run in a real HA instance with the UI (tests use HA's own test harness). Planned before the hardware beta.
+
 ## 2026-11-25: minimum HA raised to 2026.11.0
 - At the owner's request, `hacs.json` now claims only the release line they run. The test harness is still 2026.10.4 (no 2026.11 release yet); this gap is recorded in PLAN.md and the README.
 

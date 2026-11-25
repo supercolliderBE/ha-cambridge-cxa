@@ -1,7 +1,10 @@
 {
   "domain": "cambridge_cxa_home",
   "name": "Cambridge Audio CXA (Local Serial Bridge)",
-  "codeowners": ["@supercolliderBE"],
+  "codeowners": [
+    "@supercolliderBE"
+  ],
+  "config_flow": true,
   "documentation": "https://github.com/supercolliderBE/ha-cambridge-cxa",
   "integration_type": "device",
   "iot_class": "local_push",
