@@ -1,0 +1,76 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Cambridge Audio CXA",
+        "description": "Connect to the amplifier through a TCP-to-RS232 bridge (for example a USR-W610 in TCP server mode, 9600 8N1). The connection test only reads state; it does not switch the amplifier on or change anything.",
+        "data": {
+          "model": "Model",
+          "host": "Bridge host",
+          "port": "Bridge TCP port"
+        },
+        "data_description": {
+          "model": "CXA61 support follows the same documented protocol but has not been tested on hardware.",
+          "host": "IP address or hostname of the serial bridge. Reserve this address in your router.",
+          "port": "The TCP server port configured on the bridge."
+        }
+      },
+      "reconfigure": {
+        "title": "Change bridge address",
+        "description": "Update the bridge address. The device and entity stay the same.",
+        "data": {
+          "host": "Bridge host",
+          "port": "Bridge TCP port"
+        },
+        "data_description": {
+          "host": "IP address or hostname of the serial bridge.",
+          "port": "The TCP server port configured on the bridge."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not reach the bridge. Check the address, port and that the bridge is in TCP server mode.",
+      "no_response": "The bridge accepted the connection but the amplifier did not answer. Check the serial cable (straight-through vs crossover), the bridge serial settings (9600 baud, 8N1) and that the amplifier has mains power.",
+      "rejected": "The amplifier rejected the status query. Please open an issue with a probe transcript.",
+      "unknown": "Unexpected error. See the Home Assistant log."
+    },
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+      "reconfigure_successful": "[%key:common::config_flow::abort::reconfigure_successful%]"
+    }
+  },
+  "selector": {
+    "model": {
+      "options": {
+        "cxa61": "CXA61 (untested)",
+        "cxa81": "CXA81"
+      }
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "Could not reach the serial bridge."
+    },
+    "no_response": {
+      "message": "The bridge is reachable but the amplifier is not answering."
+    },
+    "not_connected": {
+      "message": "The amplifier is not connected. The command was not sent."
+    },
+    "timeout": {
+      "message": "The amplifier did not confirm the command in time. Its actual state will update when it reports."
+    },
+    "rejected": {
+      "message": "The amplifier rejected the command: {reason}."
+    },
+    "not_confirmed": {
+      "message": "The amplifier answered, but reported a different state than requested."
+    },
+    "command_failed": {
+      "message": "Command failed: {error}"
+    },
+    "invalid_source": {
+      "message": "Unknown source: {source}."
+    }
+  }
+}

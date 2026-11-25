@@ -27,7 +27,7 @@ from custom_components.cambridge_cxa_home.client import (
 )
 from tools.mock_amplifier import MockAmplifier, MockState
 
-from .conftest import HOST, wait_for
+from .conftest import HOST, WRITE_PREFIXES, wait_for
 
 # Real loopback TCP is the point of these tests; the HA plugin still restricts
 # connections to 127.0.0.1.
@@ -58,9 +58,6 @@ def _free_port() -> int:
     with socket.socket() as s:
         s.bind((HOST, 0))
         return s.getsockname()[1]
-
-
-WRITE_PREFIXES = (b"#1,02", b"#1,04", b"#3,02", b"#3,03", b"#3,04")
 
 
 def _writes(amp: MockAmplifier) -> list[bytes]:

@@ -32,4 +32,4 @@ The protocol has no transaction IDs, so replies are matched only by `(group, num
 - `tests/test_protocol.py`: byte-exact documented examples, the malformed-input corpus, and stream fragmentation, coalescing, noise and overflow.
 - `tests/test_client.py`: the real client over loopback TCP against `tools/mock_amplifier.py`. The mock has its **own** parser and does not import `protocol.py`, so the two implementations cross-check each other.
 - `tests/test_tools.py`: the probe CLI is read-only by default, refuses writes without opt-in, and returns the right exit codes.
-- HA-level tests (`pytest-homeassistant-custom-component`) arrive in milestone 3.
+- `tests/test_config_flow.py`, `test_init.py`, `test_media_player.py`, `test_diagnostics.py`: the integration inside HA's test harness, talking to the mock over loopback TCP. They cover read-only setup, error mapping, duplicates, reconfigure, setup retry, unload, shutdown, push updates, commands, the outage/recovery cycle, and diagnostics redaction.
