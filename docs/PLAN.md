@@ -33,5 +33,5 @@ Source aliases and an options flow, next/previous source services, CXA61 and Mk 
 2. **GitHub:** `supercolliderBE/ha-cambridge-cxa`; codeowner `@supercolliderBE`. Commits use the GitHub noreply address.
 3. **Domain:** `cambridge_cxa_home` (renamed from the handover's `cambridge_cxa_local`). It is fixed from now on, because changing it later breaks entity and unique IDs.
 
-## Open
-- **Minimum HA version:** the owner's Synology HA version is not known yet (Settings → About in the HA UI shows it). Only HA 2026.10.4 is tested. `hacs.json` gets a `homeassistant` minimum once the target version is known.
+## Resolved
+- **Minimum HA version: 2026.10.0** (`hacs.json`). The owner runs HA **2026.11.2** (Container on Synology), read from its mDNS `_home-assistant._tcp` announcement on 2026-11-25. Tests run against the 2026.10.4 harness; upgrade it when a 2026.11 harness is released.

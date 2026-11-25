@@ -2,6 +2,7 @@
 
 ## 2026-11-25: owner decisions
 - Domain renamed `cambridge_cxa_local` → `cambridge_cxa_home`. Repository is `supercolliderBE/ha-cambridge-cxa`, the MIT copyright holder is supercolliderBE, and git uses the GitHub noreply identity. See PLAN.md.
+- Owner's HA is 2026.11.2, read from its mDNS announcement. Set the `hacs.json` minimum to 2026.10.0, the oldest version covered by tests.
 
 ## 2026-11-25: milestones 1 and 2
 - Downloaded and read the official AP36646/2 PDF (SHA-256 recorded in protocol-evidence.md). Checked HA developer docs (moved to contributors.home-assistant.io) and HACS requirements. The legacy community integration was not consulted.

@@ -10,7 +10,7 @@ Real-device claims require an entry here. Simulator results are listed separatel
 | Protocol version (14,01 reply) | _unknown_ |
 | Bridge model / firmware | USR-W610 / _unknown_ |
 | Cable / adapter used | _unverified_ |
-| HA version / install type | Container on Synology / _unknown_ |
+| HA version / install type | 2026.11.2 (from mDNS, 2026-11-25) / Container on Synology |
 
 ## Checklist (all pending)
 | # | Question | Evidence needed | Result |
