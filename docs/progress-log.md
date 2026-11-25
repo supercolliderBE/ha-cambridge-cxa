@@ -1,5 +1,8 @@
 # Progress log
 
+## 2026-11-25: PR workflow
+- README now shows milestone status and compatibility. Added a PR template with the evidence and safety checklist. From now on, changes go through PRs to `main` (earlier commits were pushed directly while the repo was set up).
+
 ## 2026-11-25: owner decisions
 - Domain renamed `cambridge_cxa_local` → `cambridge_cxa_home`. Repository is `supercolliderBE/ha-cambridge-cxa`, the MIT copyright holder is supercolliderBE, and git uses the GitHub noreply identity. See PLAN.md.
 - Owner's HA is 2026.11.2, read from its mDNS announcement. Set the `hacs.json` minimum to 2026.10.0, the oldest version covered by tests.
