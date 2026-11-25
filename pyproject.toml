@@ -1,0 +1,39 @@
+[project]
+name = "ha-cambridge-cxa"
+version = "0.0.0"
+description = "Home Assistant custom integration for Cambridge Audio CXA amplifiers over a TCP serial bridge"
+license = "MIT"
+# Dev/test environment only (HA 2026.10 needs 3.14.2+). The integration code
+# itself runs on whatever Python the installed Home Assistant ships.
+requires-python = ">=3.14.2"
+
+[dependency-groups]
+# pytest-homeassistant-custom-component pins homeassistant, pytest and
+# pytest-asyncio to mutually compatible versions. 0.13.375 -> HA 2026.10.4.
+dev = [
+    "pytest-homeassistant-custom-component==0.13.375",
+    "ruff>=0.14",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+pythonpath = ["."]
+testpaths = ["tests"]
+filterwarnings = ["error::pytest.PytestUnraisableExceptionWarning"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "ASYNC", "RUF", "PL", "C90", "D"]
+# ASYNC109: explicit per-request timeouts are part of the client API.
+ignore = ["D105", "D107", "D203", "D213", "PLR2004", "PLR0913", "ASYNC109"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D", "PLR0915", "PLC0415", "ASYNC110"]
+"tools/**" = ["PLR0915", "C901"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["custom_components", "tools"]
