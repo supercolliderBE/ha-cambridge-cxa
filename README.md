@@ -16,7 +16,7 @@ This custom integration controls a Cambridge Audio **CXA81** (CXA61 support is p
 ## Compatibility
 | Component | Status |
 |---|---|
-| Home Assistant | Minimum **2026.10.0**. Automated tests run against 2026.10.4. 2026.11.2 is the maintainer's target install, not yet tested there. |
+| Home Assistant | Minimum **2026.11.0**, the release line the maintainer runs (2026.11.2). Automated tests still run against 2026.10.4, because no 2026.11 test harness has been released yet. Not yet tested in a running HA. |
 | Install types | Any that allow custom integrations (Container, OS, Supervised, Core). No extra add-on or container needed. |
 | Amplifiers | **CXA81: planned, not yet verified on hardware.** CXA61: protocol supported in code, untested. Mk II: unknown. |
 | Bridges | PUSR USR-W610 (planned test device). Any transparent TCP-server-to-RS232 bridge at 9600 8N1 should work in principle; none verified yet. |
