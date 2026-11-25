@@ -45,3 +45,8 @@ python tools/probe.py <ip> <port> --allow-writes --set-mute on
 python tools/probe.py <ip> <port> --allow-writes --set-mute off
 python tools/probe.py <ip> <port> --allow-writes --set-source 20   # A1 Balanced
 ```
+
+## 5. Add to Home Assistant
+Once the probe works, install the integration as described in the [README](../README.md#installation-manual-for-testing). Then add it under **Settings → Devices & services** with the same IP address and port. If setup reports "Could not reach the bridge" but the probe works from your laptop, check that the HA container can reach the bridge (checklist item H16).
+
+Only one TCP client should use the bridge: close any running probe before adding the integration.

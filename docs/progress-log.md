@@ -1,5 +1,8 @@
 # Progress log
 
+## 2026-11-25: documentation catch-up
+- After PR #3 merged: updated hardware-validation.md (165 tests broken down by suite, validator results, new checklist items H14–H16 for the real HA install), the README layout and feature text, architecture.md, the plan status, and an "Add to Home Assistant" step in hardware-setup.md.
+
 ## 2026-11-25: milestone 3 (HA MVP)
 - Repo made public after rewriting two web-merge commits that carried the owner's real email (owner enabled GitHub email privacy).
 - Added `__init__.py` (setup/unload, `ConfigEntryNotReady`, stop on HA shutdown), `config_flow.py` (user + reconfigure, read-only validation, duplicate prevention, generated unique ID), `media_player.py`, `diagnostics.py`, `strings.json` and `translations/en.json`. `manifest.json` now has `config_flow: true`.

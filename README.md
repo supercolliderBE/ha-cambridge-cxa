@@ -2,7 +2,7 @@
 
 > **Status: pre-alpha.** The integration can be installed and set up from the Home Assistant UI, but it has only been tested against a simulated amplifier. **No real-hardware compatibility is claimed yet.**
 
-This custom integration controls a Cambridge Audio **CXA81** (CXA61 support is planned) over its RS232 port. The connection goes through a transparent Wi-Fi/Ethernet-to-serial bridge such as the PUSR USR-W610. Everything is local: no cloud, no phone app and no extra container.
+This custom integration controls a Cambridge Audio **CXA81** (CXA61 is selectable but untested) over its RS232 port. The connection goes through a transparent Wi-Fi/Ethernet-to-serial bridge such as the PUSR USR-W610. Everything is local: no cloud, no phone app and no extra container.
 
 ## Project status
 | Milestone | Status |
@@ -18,13 +18,8 @@ This custom integration controls a Cambridge Audio **CXA81** (CXA61 support is p
 |---|---|
 | Home Assistant | Minimum **2026.11.0**, the release line the maintainer runs (2026.11.2). Automated tests still run against 2026.10.4, because no 2026.11 test harness has been released yet. Not yet tested in a running HA. |
 | Install types | Any that allow custom integrations (Container, OS, Supervised, Core). No extra add-on or container needed. |
-| Amplifiers | **CXA81: planned, not yet verified on hardware.** CXA61: protocol supported in code, untested. Mk II: unknown. |
+| Amplifiers | **CXA81: supported in code, not yet verified on hardware.** CXA61: selectable in setup, untested. Mk II: unknown. |
 | Bridges | PUSR USR-W610 (planned test device). Any transparent TCP-server-to-RS232 bridge at 9600 8N1 should work in principle; none verified yet. |
-
-## Planned features (MVP)
-- Power (on/standby), mute, and source selection, including **A1 Balanced** on the CXA81.
-- Live updates when the remote or front panel changes state. The amplifier pushes these.
-- Unavailable is shown distinctly from standby, with automatic reconnection.
 
 **Not supported, by design:** volume. Cambridge's serial protocol defines no volume commands, so this integration shows no volume slider and no fake volume state. Playback controls are not supported either.
 
@@ -51,6 +46,11 @@ One media player entity per amplifier:
 |---|---|
 | `custom_components/cambridge_cxa_home/protocol.py` | Framing, encoding and parsing (no HA dependency) |
 | `custom_components/cambridge_cxa_home/client.py` | Async TCP client with reconnect and state (no HA dependency) |
+| `custom_components/cambridge_cxa_home/__init__.py` | Config entry setup, retry and unload |
+| `custom_components/cambridge_cxa_home/config_flow.py` | Setup and reconfigure screens (read-only connection test) |
+| `custom_components/cambridge_cxa_home/media_player.py` | The amplifier entity |
+| `custom_components/cambridge_cxa_home/diagnostics.py` | Diagnostics download (address redacted) |
+| `tests/` | 165 tests: protocol, client, tools, and HA-level tests against the simulator |
 | `tools/mock_amplifier.py` | Simulated amplifier for development and tests |
 | `tools/probe.py` | Read-only hardware probe (Python 3.11+, stdlib only) |
 | `docs/` | [Plan](docs/PLAN.md), [architecture](docs/architecture.md), [protocol evidence](docs/protocol-evidence.md), [hardware setup](docs/hardware-setup.md), [validation](docs/hardware-validation.md), [progress log](docs/progress-log.md) |
