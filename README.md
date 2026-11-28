@@ -1,6 +1,6 @@
 # Cambridge Audio CXA (Local Serial Bridge) for Home Assistant
 
-> **Status: pre-alpha.** The integration can be installed and set up from the Home Assistant UI, but it has only been tested against a simulated amplifier. **No real-hardware compatibility is claimed yet.**
+> **Status: pre-alpha.** The protocol layer has been checked against a real CXA81 through a USR-W610 with the probe tool (2026-11-28): status, push updates, and power, mute and source control all work. **The integration itself has not yet run in Home Assistant against real hardware.**
 
 This custom integration controls a Cambridge Audio **CXA81** (CXA61 is selectable but untested) over its RS232 port. The connection goes through a transparent Wi-Fi/Ethernet-to-serial bridge such as the PUSR USR-W610. Everything is local: no cloud, no phone app and no extra container.
 
@@ -10,7 +10,7 @@ This custom integration controls a Cambridge Audio **CXA81** (CXA61 is selectabl
 | 1. Protocol encoder/parser | Done (tested against the simulator) |
 | 2. Async client, simulator, hardware probe | Done (tested against the simulator) |
 | 3. Home Assistant setup screen and entity | Done (tested against the simulator) |
-| 4. Validation on a real CXA81 + USR-W610 | Waiting for hardware ([checklist](docs/hardware-validation.md)) |
+| 4. Validation on a real CXA81 + USR-W610 | In progress: probe tests pass; Home Assistant tests pending ([checklist](docs/hardware-validation.md)) |
 | 5. HACS release (beta, then stable) | After real-hardware validation |
 
 ## Compatibility
@@ -18,8 +18,8 @@ This custom integration controls a Cambridge Audio **CXA81** (CXA61 is selectabl
 |---|---|
 | Home Assistant | Minimum **2026.11.0**, the release line the maintainer runs (2026.11.2). Automated tests still run against 2026.10.4, because no 2026.11 test harness has been released yet. Not yet tested in a running HA. |
 | Install types | Any that allow custom integrations (Container, OS, Supervised, Core). No extra add-on or container needed. |
-| Amplifiers | **CXA81: supported in code, not yet verified on hardware.** CXA61: selectable in setup, untested. Mk II: unknown. |
-| Bridges | PUSR USR-W610 (planned test device). Any transparent TCP-server-to-RS232 bridge at 9600 8N1 should work in principle; none verified yet. |
+| Amplifiers | **CXA81: protocol verified on one unit** (firmware `04000G01A61E`, protocol 1.1) with the probe; not yet in Home Assistant. CXA61: selectable in setup, untested. Mk II: unknown. |
+| Bridges | **PUSR USR-W610: works** (TCP server, transparent, 9600 8N1; see [hardware setup](docs/hardware-setup.md)). Any transparent TCP-server-to-RS232 bridge at 9600 8N1 should work in principle. |
 
 **Not supported, by design:** volume. Cambridge's serial protocol defines no volume commands, so this integration shows no volume slider and no fake volume state. Playback controls are not supported either.
 

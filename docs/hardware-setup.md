@@ -1,6 +1,6 @@
 # Hardware setup: USR-W610 + CXA81
 
-> **Status: draft, not yet performed.** Steps marked *verify* depend on information that neither Cambridge nor PUSR publishes in the documents we reviewed. Record what you find in [hardware-validation.md](hardware-validation.md).
+> **Status: sections 2–4 performed once (2026-11-28) on a CXA81 with a USR-W610; it worked.** Results are in [hardware-validation.md](hardware-validation.md). The cable section is still unverified by measurement. Steps marked *verify* depend on information that neither Cambridge nor PUSR publishes in the documents we reviewed.
 
 ## 1. Verify the cable before connecting anything
 
@@ -36,13 +36,16 @@ An idle RS232 transmit pin sits at a **negative voltage, typically −5 to −12
 The W610's hardware flow control (RTS/CTS) must be **off**: the CXA81 protocol uses only TX, RX and GND.
 
 ## 2. Bridge provisioning (browser only)
-Follow the PUSR instructions for your firmware: <https://www.pusr.com/support/faq/75.html>. Default SSID, IP and credentials vary by firmware, so take them from the label or manual, not from this document.
+Follow the PUSR instructions for your firmware: <https://www.pusr.com/support/faq/75.html>. That FAQ (2020) gives the setup Wi-Fi as `USR-W610_XXXX`, the address as `10.10.100.254` and the login as admin / admin, with the menus *Mode Selection*, *STA Interface Setting*, *Application Setting → WiFi-Uart Setting* (serial), *Application Setting → Network A Setting* (socket) and *Application Setting → More functions* (registration and heartbeat packets). Defaults can vary by firmware, so the label or manual wins. After the bridge joins your network, its web page is at its new address on your LAN.
+
+**Check the serial settings after saving and restarting.** On the first attempt (2026-11-28) they were wrong, and the probe showed the typical sign of a baud-rate mismatch: data arrived when the remote was used, but only as `00` and `e0` bytes, and no query was answered.
 
 - Wi-Fi: **STA (client)** mode on your home network. Reserve its IP address in the router.
 - Serial: **RS232, 9600 baud, 8 data bits, no parity, 1 stop bit** (documented by Cambridge). Flow control: none (*verify* the option exists and is off).
 - Socket: **TCP server**, transparent transmission. Pick a port (8899 is common but *not guaranteed* as the default) and record it.
 - **Disable** registration packets, heartbeat packets, Modbus and MQTT modes. Any injected bytes corrupt the serial stream. The probe shows anything the bridge sends when a client connects.
-- Security: set a strong admin password. Never expose the bridge or its TCP port to the internet. Raw TCP has no authentication or encryption.
+- **TCP Connection Password authentication: off.** It adds bytes to the stream.
+- Security: set a strong admin password. Change it last, write it down, and avoid special characters: PUSR does not document which characters or lengths are accepted. Never expose the bridge or its TCP port to the internet. Raw TCP has no authentication or encryption.
 - Only one TCP client should use the bridge. The W610 accepts several, and extra clients confuse reply matching.
 
 ## 3. First contact (read-only)

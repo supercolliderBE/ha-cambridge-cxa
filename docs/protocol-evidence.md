@@ -5,7 +5,7 @@ Every protocol behaviour in this project is classified as one of the following:
 - **Documented**: stated in the manufacturer document below.
 - **Inferred**: a reasonable reading of the document that it does not state outright. Must be confirmed on hardware.
 - **Unknown**: the document says nothing. The code makes the behaviour configurable or tolerant, and the mock simulates several variants.
-- **Observed**: measured on real hardware. *There are no observed entries yet.*
+- **Observed**: measured on real hardware. Evidence and conditions are in [hardware-validation.md](hardware-validation.md); first measured 2026-11-28 on one CXA81 (firmware `04000G01A61E`, protocol `1.1`) through a USR-W610.
 
 ## Source document
 
@@ -44,20 +44,38 @@ The hardware manual (<https://www.cambridgeaudio.com/gbr/en/node/19421/printable
 
 ## Inferred (confirm on hardware)
 
+Items 1, 2 and 4 are now **observed** on a CXA81 (see below). Item 3 is still inferred.
+
 1. **Setter replies.** The document gives no reply for 01,02 / 01,04 / 03,02–03,04. Two things together suggest the reply is the matching "current state" reply (02,01 / 02,03 / 04,01): every message gets a reply or an error, and those are the only replies defined. The client waits for that key and checks the value (`CXANotConfirmedError` on mismatch).
 2. **The amplifier answers while in standby.** The power reply defines `0 - Standby`, which suggests the unit can report standby. The setup check and the liveness poll depend on this.
 3. **Error attribution.** Error frames carry no reference to the command that caused them. We attribute an error to the single in-flight request.
 4. **Source codes in replies are two digits** (example `#04,01,02`). The parser also accepts one digit and normalizes it.
 
+## Observed on hardware (2026-11-28)
+
+One CXA81 (original or Mk II not yet confirmed) behind a USR-W610. Details: [hardware-validation.md](hardware-validation.md), items H1–H10.
+
+| Topic | Observation | Code impact |
+|---|---|---|
+| Group padding of requests | `#1,01` and `#01,01` are both accepted, on and in standby. Writes were sent unpadded only. | Default `UNPADDED` is fine; no option needed |
+| Reply format | Replies and errors use two-digit groups and end in CR only; no LF from the bridge. Source codes are two digits. | Matches the parser |
+| Setter replies | Each setter (`01,02`, `01,04`, `03,04`) gets exactly **one** matching state reply with the new value, and no separate push. Power-on also sends source and mute. | Confirms inferred item 1 |
+| Standby | Power query answered (`#02,01,0`). Mute and source queries get `#00,04`. Protocol and firmware version queries are still answered. | Confirms inferred item 2; mute and source stay unknown in standby, as designed |
+| Power-on | The power-on command is answered after about 3.0 s, together with source and mute in one burst. Standby takes about 1.2 s. | Within the 10 s power timeout |
+| Reply latency | About 60–160 ms for queries and mute/source setters. | Within the 3 s request timeout |
+| Pushes | Mute, source and power changes from the IR remote are pushed at once. A remote power-on pushes power, source and mute together. | Unsolicited events update state |
+| Protocol version | `1.1` (the PDF's example is `1.0`). | Stored verbatim |
+| Firmware version | `04000G01A61E`: the same shape as the PDF's example `01000G01061E`. | Kept verbatim |
+
 ## Unknown (configurable or tolerated)
 
 | Unknown | Handling | Mock knob |
 |---|---|---|
-| **Group padding of requests.** Request examples are unpadded (`#1,01`, `#3,04,02`), which contradicts the `gg` format. Reply and error examples are padded (`#02,01,1`, `#00,01`). | Default: documented example form (`GroupFormat.UNPADDED`); `PADDED` available. The parser accepts both. The probe's `--group-format both` settles it. | `accept_group_format` |
-| Which commands work in standby | Nothing in standby is assumed except the power query. Unanswered or rejected mute/source queries leave the values *unknown* (`None`). | `standby_mode` |
-| Whether a setter also produces a separate push frame | Duplicates are harmless: state updates are idempotent, and an extra frame with no pending request is just an event. | `duplicate_notifications` |
-| Reply latency, wake-up time from standby | Request timeout 3 s, power timeout 10 s, both configurable. To be measured. | `reply_delay`, `power_on_delay` |
-| Line endings added by the bridge | A stray LF is ignored. | `line_ending` |
+| **Group padding of requests.** Request examples are unpadded (`#1,01`, `#3,04,02`), which contradicts the `gg` format. Reply and error examples are padded (`#02,01,1`, `#00,01`). | Default: documented example form (`GroupFormat.UNPADDED`); `PADDED` available. The parser accepts both. **Observed: the CXA81 accepts both.** | `accept_group_format` |
+| Which commands work in standby | Nothing in standby is assumed except the power query. Unanswered or rejected mute/source queries leave the values *unknown* (`None`). **Observed: mute/source rejected with `00,04`, version queries answered.** No mock mode matches this exactly yet. | `standby_mode` |
+| Whether a setter also produces a separate push frame | Duplicates are harmless: state updates are idempotent, and an extra frame with no pending request is just an event. **Observed: no duplicate on the CXA81.** | `duplicate_notifications` |
+| Reply latency, wake-up time from standby | Request timeout 3 s, power timeout 10 s, both configurable. **Observed: about 0.1 s and 3.0 s.** | `reply_delay`, `power_on_delay` |
+| Line endings added by the bridge | A stray LF is ignored. **Observed: the W610 adds none.** | `line_ending` |
 | Firmware version format | Kept verbatim as a string. Never used as identity. | `firmware_version` |
 | Mk II models | Not covered by AP36646/2. Unsupported until validated. | n/a |
 
@@ -70,7 +88,7 @@ The hardware manual (<https://www.cambridgeaudio.com/gbr/en/node/19421/printable
 | Two-digit vs single-digit group inconsistency | Confirmed, and more specific: *requests* are unpadded in the examples, while *replies and errors* are padded. Version requests (`#13,01`) are two-digit by nature. |
 | Setters return a reply | **Not documented**; inferred only (see above). |
 | "Read official command tables for … error meanings" | Only four generic error codes exist. Errors do not say which command they refer to. |
-| Standby behaviour "reopen the PDF" | The PDF says nothing about standby. Neither does the hardware manual. This remains a hardware test. |
+| Standby behaviour "reopen the PDF" | The PDF says nothing about standby. Neither does the hardware manual. **Measured on hardware (2026-11-28):** see "Observed on hardware". |
 | Cable compatibility | Neither Cambridge document gives gender or pinout. Later research: the W610 manual confirms **DB9 male** (no pin table); a review says the CXA81 is **DB9 female**; Cambridge's convention (CXR FAQ) is straight-through. A straight-through M-F cable is therefore likely right, but unverified. See hardware-setup.md for the multimeter check. |
 | HA docs at developers.home-assistant.io | These now redirect to contributors.home-assistant.io. `MediaPlayerState.STANDBY` is deprecated, so standby maps to `off`. |
 | HACS branding | Since HA 2026.3, custom integrations ship `custom_components/<domain>/brand/icon.png`. We need an original icon; Cambridge's logo can't be used. |

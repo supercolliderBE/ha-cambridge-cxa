@@ -15,7 +15,7 @@ The status of each milestone is kept current here. For details of what changed a
 | 1 | Scaffold, protocol encoder/parser, typed events, unit tests | **Done** (2026-11-25) |
 | 2 | Async TCP client, reconnect/resync, stateful mock, read-only probe CLI, tests | **Done** (2026-11-25) |
 | 3 | HA MVP: config flow (+ reconfigure), setup/unload, `media_player`, diagnostics, HA tests | **Done** (2026-11-25, simulator only) |
-| 4 | Hardware validation on CXA81 + USR-W610 (see checklist) | **Next.** Blocked on hardware. Before it: an end-to-end run in a real HA instance against the simulator |
+| 4 | Hardware validation on CXA81 + USR-W610 (see checklist) | **In progress.** Probe validation done 2026-11-28 (H1–H8 answered; power, mute and source control work). Open: A1 Balanced, Mk II check, second client, and everything inside Home Assistant (H11–H16) |
 | 5 | Release: brand icon, HACS/hassfest green, docs, beta tag, then stable | After 4. hassfest already passes; HACS fails only on the brand icon |
 
 ### Milestone 3 design (as built)
