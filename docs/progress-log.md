@@ -1,5 +1,13 @@
 # Progress log
 
+## 2026-11-28: first contact with the real CXA81
+- The owner set up the USR-W610 (STA, TCP server, 9600 8N1) and connected it to the CXA81. Five probe runs, all from a Mac on the LAN; results in hardware-validation.md (H1–H10) and a new "Observed on hardware" table in protocol-evidence.md. The bridge address is not recorded anywhere in the repo.
+- First run failed (exit 1): the bridge's serial settings were wrong, and the amplifier's pushes arrived as `00`/`e0` garbage. After the owner fixed them, everything answered: both group formats, all queries, and pushes from the remote.
+- In standby the amplifier answers power and version queries and rejects mute and source with `00,04`. Setters are answered by exactly one state reply (confirming the inferred behaviour). Power-on takes about 3 s; other replies about 0.1 s.
+- Writes (owner-approved, at low volume): mute on/off, source D1 and back to A1, standby and on. All confirmed. Each write was sent once; none was retried.
+- Docs only in this change: no code or tests changed, so the test count (165) is unchanged.
+- Follow-ups found: the probe's `--listen` window restarts on every received frame (it ran about 2 minutes instead of 30 s); the mock has no standby mode that matches the real unit (reject mute/source, answer versions). Still to confirm: Mk II or original, cable type, bridge firmware.
+
 ## 2026-11-25: cable research and branch cleanup
 - Pinout research recorded in hardware-setup.md: W610 is DB9 male (PUSR manual), CXA81 DB9 female (review), Cambridge recommends straight-through for its CXR receivers. Added a multimeter method to find each TX pin, and the options if the wiring doesn't match.
 - Deleted three merged branches; turned on automatic deletion of PR branches after merge.
